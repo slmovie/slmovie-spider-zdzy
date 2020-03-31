@@ -2,5 +2,8 @@
   "name": "slmovie-spider-zdzy",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "superagent": "^5.2.2"
+  }
 }
