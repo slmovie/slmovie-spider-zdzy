@@ -1,5 +1,7 @@
 const Online = 0;
 const Download = 1;
+exports.Online = Online;
+exports.Download = Download;
 
 exports.handleData = function(result, type) {
 	result.data.forEach((element) => {
