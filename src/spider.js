@@ -1,5 +1,5 @@
 const superagent = require('superagent');
-const TargetUrl = require('./constant').TargetUrl;
+const constant = require('./constant');
 
 function reqPage(url) {
 	superagent.get(url).end((err, response) => {
@@ -15,4 +15,4 @@ function reqPage(url) {
 	});
 }
 
-reqPage(TargetUrl.onlineUrl + 1);
+reqPage(constant.target.onlineUrl + 1);
