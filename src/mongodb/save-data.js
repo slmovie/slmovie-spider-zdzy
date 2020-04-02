@@ -1,6 +1,6 @@
-const DBAddress = require('./DBConstans').DBAddress;
+const DBAddress = require('./db-constans').DBAddress;
 const mongoose = require('mongoose');
-const log = require('../utils/LogUtils');
+const log = require('../utils/log-utils');
 
 const db = mongoose.createConnection(DBAddress + '/movies', {
 	useNewUrlParser: true,
