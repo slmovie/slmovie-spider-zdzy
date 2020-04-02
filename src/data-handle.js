@@ -3,38 +3,41 @@ const Download = 1;
 exports.Online = Online;
 exports.Download = Download;
 
-exports.handleData = function(result, type) {
-	result.data.forEach((element) => {
-		handleMovies(element.vod_url)
-			.then((files) => {
-				let onlineUrls = [];
-				let downloadUrls = [];
-				if (type == Online) {
-					onlineUrls = files;
-				} else {
-					downloadUrls = files;
-				}
-				let detail = {
-					name: element.vod_name,
-					post: element.vod_pic,
-					describe: element.vod_content,
-					id: element.vod_id,
-					year: element.vod_year,
-					location: element.vod_area,
-					type: element.vod_cid,
-					actor: element.vod_actor,
-					director: element.vod_director,
-					status: element.vod_continu,
-					addTime: element.vod_addtime,
-					onlineUrls: onlineUrls,
-					downloadUrls: downloadUrls
-				};
-				console.log(detail);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	});
+exports.handleData = function (result, type) {
+	return new Promise((resolve, reject) => {
+		result.data.forEach((element) => {
+			handleMovies(element.vod_url)
+				.then((files) => {
+					let onlineUrls = [];
+					let downloadUrls = [];
+					if (type == Online) {
+						onlineUrls = files;
+					} else {
+						downloadUrls = files;
+					}
+					let detail = {
+						name: element.vod_name,
+						post: element.vod_pic,
+						describe: element.vod_content,
+						id: element.vod_id,
+						year: element.vod_year,
+						location: element.vod_area,
+						type: element.vod_cid,
+						actor: element.vod_actor,
+						director: element.vod_director,
+						status: element.vod_continu,
+						addTime: element.vod_addtime,
+						onlineUrls: onlineUrls,
+						downloadUrls: downloadUrls
+					};
+					console.log(detail.name)
+				})
+				.catch((err) => {
+					reject(err)
+				});
+			resolve()
+		});
+	})
 };
 
 function handleMovies(data) {
