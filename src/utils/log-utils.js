@@ -1,4 +1,4 @@
-const getTimeFormat = require('./DateFormat');
+const getTimeFormat = require('./date-format');
 
 exports.log = (log, time) => {
 	if (time) {

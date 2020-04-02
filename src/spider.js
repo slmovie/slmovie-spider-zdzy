@@ -1,6 +1,6 @@
 const superagent = require('superagent');
-const DataHandle = require('./DataHandle');
-const Constant = require('./Constant');
+const dataHandle = require('./data-handle');
+const constant = require('./constant');
 
 function reqPage(url, type) {
 	superagent.get(url).end((err, response) => {
@@ -9,7 +9,7 @@ function reqPage(url, type) {
 		} else {
 			if (response.status === 200) {
 				let result = JSON.parse(response.text);
-				DataHandle.handleData(result, type);
+				dataHandle.handleData(result, type);
 			} else {
 			}
 		}
@@ -17,11 +17,11 @@ function reqPage(url, type) {
 }
 
 function reqOnline(page) {
-	reqPage(Constant.target.onlineUrl + page, DataHandle.Online);
+	reqPage(constant.target.onlineUrl + page, dataHandle.Online);
 }
 
 function reqDownload(page) {
-	reqPage(Constant.target.downloadUrl + page, DataHandle.Download);
+	reqPage(constant.target.downloadUrl + page, dataHandle.Download);
 }
 
 reqOnline(1);
