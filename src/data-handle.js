@@ -1,7 +1,4 @@
-const Online = 0;
-const Download = 1;
-exports.Online = Online;
-exports.Download = Download;
+const constant = require('./constant')
 
 exports.handleData = function (result, type) {
 	return new Promise((resolve, reject) => {
@@ -10,7 +7,7 @@ exports.handleData = function (result, type) {
 				.then((files) => {
 					let onlineUrls = [];
 					let downloadUrls = [];
-					if (type == Online) {
+					if (type == constant.type.Online) {
 						onlineUrls = files;
 					} else {
 						downloadUrls = files;

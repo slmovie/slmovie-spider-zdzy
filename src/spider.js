@@ -49,7 +49,7 @@ function spiderPage(url, page, type, finish) {
 }
 
 function reqOnline(page) {
-	reqPage(constant.target.onlineUrl + page, dataHandle.Online);
+	reqPage(constant.target.onlineUrl + page, constant.type.Online);
 }
 
 function reqDownload(page) {
@@ -70,4 +70,4 @@ function spiderAll(url, type) {
 	})
 }
 
-spiderAll(constant.target.onlineUrl, dataHandle.Online)
+spiderAll(constant.target.onlineUrl, constant.type.Online)
