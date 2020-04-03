@@ -1,5 +1,5 @@
 
-const getTimeFormat = (time) => {
+const getTimeFormat = (time: number): string => {
 	let date = new Date(time);
 	let Y = date.getFullYear() + '-';
 	let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
@@ -10,9 +10,9 @@ const getTimeFormat = (time) => {
 	return Y + M + D + h + m + s;
 };
 
-exports.log = (log, time) => {
+export const log = (log: any, time: boolean = false) => {
 	if (time) {
-		console.log(getTimeFormat(Date.now()) + ' ' + log);
+		console.log(getTimeFormat(Date.now()) + " " + log);
 	} else {
 		console.log(log);
 	}

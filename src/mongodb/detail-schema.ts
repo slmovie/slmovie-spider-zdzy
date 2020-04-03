@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const movieFiles = new mongoose.Schema({
 	name: String,
@@ -15,8 +15,8 @@ export const MovieSchema = new mongoose.Schema({
 	actor: String,
 	director: String,
 	status: String,
-	downloadUrls: [ movieFiles ],
-	onlineUrls: [ movieFiles ],
+	downloadUrls: [movieFiles],
+	onlineUrls: [movieFiles],
 	id: String,
 	addTime: String
 });

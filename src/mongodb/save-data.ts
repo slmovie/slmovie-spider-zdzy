@@ -1,8 +1,8 @@
-const DBAddress = require('./db-constans').DBAddress;
-const mongoose = require('mongoose');
-const log = require('../utils/log-utils');
-const MovieSchema = require('./detail-schema').MovieSchema;
-const constant = require('../constant');
+import { DBAddress } from './db-constans'
+import mongoose from 'mongoose'
+import { log } from '../utils/log-utils'
+import { MovieSchema } from './detail-schema'
+import { constant } from "../constant"
 
 const db = mongoose.createConnection(DBAddress + '/movies', {
 	useNewUrlParser: true,
@@ -14,7 +14,7 @@ db.catch((error) => {
 	process.exit(0);
 });
 
-function saveMovie(movie, type) {
+function saveMovie(movie: any, type: number) {
 	return new Promise((resolve, reject) => {
 		const model = db.model('Movie', MovieSchema);
 		findOneByID(model, movie.id)
@@ -28,7 +28,7 @@ function saveMovie(movie, type) {
 			})
 			.catch((error) => {
 				//没有查到，直接添加
-				model.create(detail, (error) => {
+				model.create(movie, (error: any) => {
 					if (error) {
 						reject(error);
 					} else {
@@ -39,9 +39,9 @@ function saveMovie(movie, type) {
 	});
 }
 
-function findOneByID(model, id) {
+function findOneByID(model: any, id: string) {
 	return new Promise((resolve, reject) => {
-		model.findOne({ id: id }, (error, doc) => {
+		model.findOne({ id: id }, (error: any, doc: any) => {
 			if (error || doc == null) {
 				reject();
 			} else {
