@@ -1,62 +1,62 @@
 import { log } from './utils/log-utils'
-import { constant } from "./constant"
+import { Constant } from "./constant"
 import superagent from 'superagent'
 import { handleData } from './data-handle'
 
 function reqPage(url: string) {
 	return new Promise((resolve, reject) => {
-		superagent.get(url).end((err, response) => {
-			if (err) {
-				reject(err)
-			} else {
-				if (response.status === 200) {
-					let result = JSON.parse(response.text);
-					resolve(result)
+		superagent
+			.get(url)
+			.timeout({
+				response: 5000,
+				deadline: 60000,
+			})
+			.end((err, response) => {
+				if (err) {
+					reject(err)
 				} else {
-					reject(response.status)
+					if (response.status === 200) {
+						let result = JSON.parse(response.text);
+						resolve(result)
+					} else {
+						reject(response.status)
+					}
 				}
-			}
-		});
+			});
 	})
 }
 
-function reqPageSize(url: string) {
-	return new Promise((resolve, reject) => {
-		reqPage(url).then((result: any) => {
-			resolve(result.page)
-		}).catch((error) => {
+async function spiderPage(type: number, page: number, end: number, finish: Function) {
+	log("page = " + page)
+	const url = Constant.getUrl(type)
+	try {
+		const result = await reqPage(url + page)
+		handleData(result, type)
+		if (page == end) {
+			finish()
+		} else {
+			log("next page = " + (page - 1))
+			spiderPage(type, page - 1, end, finish)
+		}
+	} catch (error) {
+		log("error>>" + error)
+		throw (error)
+	}
+}
+
+export async function spiderToTarget(type: number, end: number) {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const result: any = await reqPage(Constant.getUrl(type))
+			spiderPage(type, result.page.pagecount, end, function finishSpider() {
+				resolve()
+			})
+		} catch (error) {
 			reject(error)
-		})
+		}
 	})
 }
 
-function spiderPage(url: string, page: number, type: number, end: number, finish: Function) {
-	reqPage(url + page).then((result) => {
-		handleData(result, type, () => {
-			if (page === end) {
-				finishSpider()
-			} else {
-				spiderPage(url, page - 1, type, end, finish)
-			}
-		})
-	}).catch(error => {
-		log("page = " + page)
-		log(error)
-	})
-}
-
-function finishSpider() {
-	log("Spider Finish")
-	process.exit(0);
-}
-
-function spiderAll(url: string, type: number, end: number) {
-	reqPageSize(url).then((page: any) => {
-		spiderPage(url, page.pagecount, type, end, finishSpider)
-	}).catch(error => {
-		log(error)
-		process.exit(0);
-	})
-}
-
-spiderAll(constant.target.downloadUrl, constant.type.Download, 1211)
+// reqPage(Constant.getUrl(Constant.Download)).then(result => log(result)).catch(error => log(error))
+// spiderPage(1, Constant.Download, 1, finishSpider)
+// spiderToTarget(Constant.Online, 1223).then(() => process.exit(0))

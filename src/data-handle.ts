@@ -1,46 +1,56 @@
-import { constant } from "./constant"
+import { Constant } from "./constant"
 import { log } from "./utils/log-utils"
 import { IMovieDetail, IMovieFile } from "./typing/detail-typing";
+import { saveMovie } from "./mongodb/save-data";
 
-export const handleData = (result: any, type: number, finish: Function) => {
-	result.data.forEach((element: any) => {
-		const files = handleMovies(element.vod_url)[0]
-		const m3u8 = handleMovies(element.vod_url)[1]
-		let onlineUrls: IMovieFile[] = [];
-		let downloadUrls: IMovieFile[] = [];
-		let m3u8Urls: IMovieFile[] = [];
-		if (type == constant.type.Online) {
-			onlineUrls = files;
-			m3u8Urls = m3u8
+export const handleData = (result: any, type: number) => {
+	result.data.forEach(async (element: any) => {
+		if (element.vod_cid != 16 && element.vod_cid != 17) {
+			const files = handleMovieUrls(element.vod_url)[0]
+			const m3u8 = handleMovieUrls(element.vod_url)[1]
+			let onlineUrls: IMovieFile[] = [];
+			let downloadUrls: IMovieFile[] = [];
+			let m3u8Urls: IMovieFile[] = [];
+			if (type == Constant.Online) {
+				onlineUrls = files;
+				m3u8Urls = m3u8
+			} else {
+				downloadUrls = files;
+			}
+			let detail: IMovieDetail = {
+				name: element.vod_name,
+				post: element.vod_pic,
+				describe: element.vod_content,
+				id: element.vod_id,
+				year: element.vod_year,
+				location: element.vod_area,
+				type: element.vod_cid,
+				actor: element.vod_actor,
+				director: element.vod_director,
+				status: element.vod_continu,
+				addTime: element.vod_addtime,
+				onlineUrls: onlineUrls,
+				downloadUrls: downloadUrls,
+				m3u8Urls: m3u8Urls
+			};
+			try {
+				const result = await saveMovie(detail)
+				log(result)
+			} catch (error) {
+				log(error)
+			}
 		} else {
-			downloadUrls = files;
+			log("过滤 " + element.vod_name)
 		}
-		let detail: IMovieDetail = {
-			name: element.vod_name,
-			post: element.vod_pic,
-			describe: element.vod_content,
-			id: element.vod_id,
-			year: element.vod_year,
-			location: element.vod_area,
-			type: element.vod_cid,
-			actor: element.vod_actor,
-			director: element.vod_director,
-			status: element.vod_continu,
-			addTime: element.vod_addtime,
-			onlineUrls: onlineUrls,
-			downloadUrls: downloadUrls,
-			m3u8Urls: m3u8
-		};
-		log(detail.name)
 	});
-	finish()
 };
 
-const handleMovies = (data: any) => {
+
+const handleMovieUrls = (data: any) => {
 	const files: IMovieFile[] = [];
 	const m3u8: IMovieFile[] = []
 	data.split('$$$').forEach((typeText: String) => {
-		const movies = typeText.split(/\s+/);
+		const movies = typeText.split('\r\n');
 		movies.forEach((movie) => {
 			const file = movie.split('$');
 			if (movie.endsWith('m3u8')) {

@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "spider-all-online": "ts-node ./src/script/spider-all-online",
+    "spider-all-download": "ts-node ./src/script/spider-all-download"
+  },
   "dependencies": {
     "@types/mongoose": "^5.7.8",
     "@types/superagent": "^4.1.7",
