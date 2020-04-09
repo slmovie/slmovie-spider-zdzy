@@ -67,7 +67,7 @@ export const saveMovie = (movie: IMovieDetail) => {
 						{ id: movie.id },
 						{ $set: changedMovie },
 						(err: any) => {
-							if (error) {
+							if (err) {
 								const status = { message: movie.id + " " + movie.name + " 更新失败", error: error };
 								reject(status);
 							} else {
