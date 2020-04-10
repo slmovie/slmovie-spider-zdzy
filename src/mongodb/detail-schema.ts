@@ -16,7 +16,7 @@ export const MovieSchema = new mongoose.Schema({
 	director: String,
 	status: String,
 	downloadUrls: [movieFiles],
-	onlineUrls: [movieFiles],
+	webUrls: [movieFiles],
 	m3u8Urls: [movieFiles],
 	id: String,
 	addTime: String

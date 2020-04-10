@@ -9,7 +9,7 @@ export interface IMovieDetail {
     director: string,
     status: string,
     downloadUrls: IMovieFile[],
-    onlineUrls: IMovieFile[],
+    webUrls: IMovieFile[],
     m3u8Urls: IMovieFile[],
     id: string,
     addTime: string

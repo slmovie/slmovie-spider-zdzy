@@ -35,7 +35,6 @@ async function spiderPage(type: number, page: number, end: number, finish: Funct
 		if (page == end) {
 			finish()
 		} else {
-			log("next page = " + (page - 1))
 			spiderPage(type, page - 1, end, finish)
 		}
 	} catch (error) {
@@ -58,5 +57,8 @@ export async function spiderToTarget(type: number, end: number) {
 }
 
 // reqPage(Constant.getUrl(Constant.Download)).then(result => log(result)).catch(error => log(error))
-// spiderPage(1, Constant.Download, 1, finishSpider)
+// spiderPage(Constant.Online, 7, 1, function finishSpider() {
+// 	log("Online spider finish")
+// 	process.exit(0)
+// })
 // spiderToTarget(Constant.Online, 1223).then(() => process.exit(0))

@@ -8,11 +8,11 @@ export const handleData = (result: any, type: number) => {
 		if (element.vod_cid != 16 && element.vod_cid != 17) {
 			const files = handleMovieUrls(element.vod_url)[0]
 			const m3u8 = handleMovieUrls(element.vod_url)[1]
-			let onlineUrls: IMovieFile[] = [];
+			let webUrls: IMovieFile[] = [];
 			let downloadUrls: IMovieFile[] = [];
 			let m3u8Urls: IMovieFile[] = [];
 			if (type == Constant.Online) {
-				onlineUrls = files;
+				webUrls = files;
 				m3u8Urls = m3u8
 			} else {
 				downloadUrls = files;
@@ -29,12 +29,12 @@ export const handleData = (result: any, type: number) => {
 				director: element.vod_director,
 				status: element.vod_continu,
 				addTime: element.vod_addtime,
-				onlineUrls: onlineUrls,
+				webUrls: webUrls,
 				downloadUrls: downloadUrls,
 				m3u8Urls: m3u8Urls
 			};
 			try {
-				const result = await saveMovie(detail)
+				const result = await saveMovie(type, detail)
 				log(result)
 			} catch (error) {
 				log(error)
