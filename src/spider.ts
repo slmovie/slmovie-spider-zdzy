@@ -38,8 +38,9 @@ async function spiderPage(type: number, page: number, finish: Function) {
 			spiderPage(type, page - 1, finish)
 		}
 	} catch (error) {
-		log("error>>" + error)
-		throw (error)
+		setTimeout(() => {
+			spiderPage(type, page, finish)
+		}, 5000)
 	}
 }
 
