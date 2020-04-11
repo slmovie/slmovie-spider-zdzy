@@ -44,16 +44,16 @@ export const saveMovie = async (type: number, movie: IMovieDetail) => {
 			//有数据，检查更新
 			let changedMovie
 			if (type == Constant.Download) {
-				if (doc.downloadUrls == undefined || (movie.downloadUrls.length > 0 && doc.downloadUrls.length != movie.downloadUrls.length)) {
+				if (doc.downloadUrls == undefined || (movie.downloadUrls.length > 0 && doc.downloadUrls.length < movie.downloadUrls.length)) {
 					changedMovie = { downloadUrls: movie.downloadUrls }
 				}
 			} else {
 				//0 no update 1 m3u8 2 http 3 all
 				let model = 0
-				if (doc.m3u8Urls == undefined || (movie.m3u8Urls.length > 0 && doc.m3u8Urls.length != movie.m3u8Urls.length)) {
+				if (doc.m3u8Urls == undefined || (movie.m3u8Urls.length > 0 && doc.m3u8Urls.length < movie.m3u8Urls.length)) {
 					model = 1
 				}
-				if (doc.webUrls == undefined || (movie.webUrls.length > 0 && doc.webUrls.length != movie.webUrls.length)) {
+				if (doc.webUrls == undefined || (movie.webUrls.length > 0 && doc.webUrls.length < movie.webUrls.length)) {
 					if (model == 1) {
 						model = 3
 					} else {

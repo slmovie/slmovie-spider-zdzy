@@ -1,10 +1,10 @@
-import { spiderAll } from "../spider";
+import { spiderPage } from "../spider";
 import { Constant } from "../constant";
 import { log } from "../utils/log-utils";
 
-spiderAll(Constant.Download).then(() => {
+spiderPage(Constant.Download, () => {
     log("Download spider finish")
-    spiderAll(Constant.Online).then(() => {
+    spiderPage(Constant.Online, () => {
         log("Online spider finish")
         process.exit(0)
     })

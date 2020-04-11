@@ -26,45 +26,49 @@ function reqPage(url: string) {
 	})
 }
 
-async function spiderPage(type: number, page: number, finish: Function) {
+export async function spiderPage(type: number, finish: Function, page?: number, end?: number) {
+	if (!page) {
+		page = 1
+	}
 	log("page = " + page)
 	const url = Constant.getUrl(type)
 	try {
-		const result = await reqPage(url + page)
+		const result: any = await reqPage(url + page)
 		handleData(result, type)
-		if (page == 1) {
+		let endPage
+		if (end) {
+			endPage = end
+		} else {
+			end = result.page.pagecount
+		}
+		if (page == end) {
 			finish()
 		} else {
-			spiderPage(type, page - 1, finish)
+			spiderPage(type, finish, page + 1, end)
 		}
 	} catch (error) {
 		setTimeout(() => {
-			spiderPage(type, page, finish)
+			spiderPage(type, finish, page, end)
 		}, 5000)
 	}
 }
 
 export async function spiderAll(type: number) {
 	return new Promise(async (resolve, reject) => {
-		try {
-			const result: any = await reqPage(Constant.getUrl(type))
-			spiderPage(type, result.page.pagecount, function finishSpider() {
-				resolve()
-			})
-		} catch (error) {
-			reject(error)
-		}
+		spiderPage(type, () => {
+			resolve()
+		})
 	})
 }
 
 export async function spiderDay() {
 	return new Promise(async (resolve, reject) => {
 		try {
-			spiderPage(Constant.Download, 200, () => {
-				spiderPage(Constant.Online, 200, () => {
+			spiderPage(Constant.Download, () => {
+				spiderPage(Constant.Online, () => {
 					resolve()
-				})
-			})
+				}, 1, 200)
+			}, 1, 200)
 		} catch (error) {
 			reject(error)
 		}
@@ -72,8 +76,8 @@ export async function spiderDay() {
 }
 
 // reqPage(Constant.getUrl(Constant.Download)).then(result => log(result)).catch(error => log(error))
-// spiderPage(Constant.Online, 7, function finishSpider() {
-// 	log("Online spider finish")
-// 	process.exit(0)
-// })
+spiderPage(Constant.Download, () => {
+	log("Online spider finish")
+	process.exit(0)
+}, 1, 45)
 // spiderToTarget(Constant.Online, 1223).then(() => process.exit(0))
