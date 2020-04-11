@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "spider-all-online": "ts-node ./src/script/spider-all-online",
-    "spider-all-download": "ts-node ./src/script/spider-all-download"
+    "spider-all": "ts-node ./src/script/spider-all",
+    "spider-dayly": "ts-node ./src/script/spider-day"
   },
   "dependencies": {
     "@types/mongoose": "^5.7.10",

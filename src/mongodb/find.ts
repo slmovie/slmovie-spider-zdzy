@@ -68,5 +68,5 @@ async function update(id: number) {
     process.exit(0)
 }
 
-update(83306)
-// findOne(83306)
+// update(83306)
+findOne(83098)
