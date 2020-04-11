@@ -56,18 +56,21 @@ function getMovies(names: string[]) {
     })
 }
 
-async function setHotMovies(names: string[]) {
+export async function setHotMovies(names: string[]) {
     try {
         const hotMovies = await getMovies(names)
         log(hotMovies)
         const hot = { name: "hot", movies: hotMovies }
         log(hot)
-        await homeModel.create(hot)
+        const oldHot = await homeModel.findOne({ name: hot.name })
+        if (oldHot == null) {
+            await homeModel.create(hot)
+        } else {
+            await homeModel.updateOne({ name: hot.name }, { $set: hot })
+        }
     } catch (error) {
         log(error)
     }
     dbMovies.close()
     process.exit(0)
 }
-
-// setHotMovies(["龙岭迷窟", "我是余欢水"])

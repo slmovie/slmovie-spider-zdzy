@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "spider-all": "ts-node ./src/script/spider-all",
-    "spider-dayly": "ts-node ./src/script/spider-day"
+    "spider-dayly": "ts-node ./src/script/spider-day",
+    "set-hot": "ts-node ./src/script/set-hot"
   },
   "dependencies": {
     "@types/mongoose": "^5.7.10",

@@ -72,7 +72,7 @@ export async function spiderDay() {
 }
 
 // reqPage(Constant.getUrl(Constant.Download)).then(result => log(result)).catch(error => log(error))
-// spiderPage(Constant.Online, 7, 1, function finishSpider() {
+// spiderPage(Constant.Online, 7, function finishSpider() {
 // 	log("Online spider finish")
 // 	process.exit(0)
 // })

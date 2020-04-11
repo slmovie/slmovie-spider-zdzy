@@ -40,7 +40,7 @@ export const handleData = (result: any, type: number) => {
 				log(error)
 			}
 		} else {
-			log("过滤 " + element.vod_name)
+			// log("过滤 " + element.vod_name)
 		}
 	});
 };
