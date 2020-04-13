@@ -76,8 +76,8 @@ export async function spiderDay() {
 }
 
 // reqPage(Constant.getUrl(Constant.Download)).then(result => log(result)).catch(error => log(error))
-spiderPage(Constant.Download, () => {
-	log("Online spider finish")
-	process.exit(0)
-}, 1, 45)
+// spiderPage(Constant.Download, () => {
+// 	log("Online spider finish")
+// 	process.exit(0)
+// }, 1, 45)
 // spiderToTarget(Constant.Online, 1223).then(() => process.exit(0))
