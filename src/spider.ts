@@ -30,11 +30,11 @@ export async function spiderPage(type: number, finish: Function, page?: number, 
 	if (!page) {
 		page = 1
 	}
-	log("page = " + page)
+	log("page = " + page + " type = " + type)
 	const url = Constant.getUrl(type)
 	try {
 		const result: any = await reqPage(url + page)
-		handleData(result, type)
+		await handleData(result, type)
 		let endPage
 		if (end) {
 			endPage = end
@@ -47,6 +47,7 @@ export async function spiderPage(type: number, finish: Function, page?: number, 
 			spiderPage(type, finish, page + 1, end)
 		}
 	} catch (error) {
+		log(error)
 		setTimeout(() => {
 			spiderPage(type, finish, page, end)
 		}, 5000)
@@ -64,8 +65,10 @@ export async function spiderAll(type: number) {
 export async function spiderDay() {
 	return new Promise(async (resolve, reject) => {
 		try {
-			spiderPage(Constant.Download, () => {
-				spiderPage(Constant.Online, () => {
+			spiderPage(Constant.Online, () => {
+				log("Online finish")
+				spiderPage(Constant.Download, () => {
+					log("Download finish")
 					resolve()
 				}, 1, 200)
 			}, 1, 200)

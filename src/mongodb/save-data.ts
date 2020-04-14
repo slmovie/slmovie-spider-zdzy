@@ -80,7 +80,8 @@ export const saveMovie = async (type: number, movie: IMovieDetail) => {
 					const status = { message: movie.id + " " + movie.name + " 更新失败", error: error };
 					reject(status);
 				}
-
+			} else {
+				resolve()
 			}
 		}
 	});
