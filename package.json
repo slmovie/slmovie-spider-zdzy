@@ -7,7 +7,7 @@
     "spider-all": "ts-node ./src/script/spider-all",
     "spider-dayly": "ts-node ./src/script/spider-day-now",
     "set-hot": "ts-node ./src/script/set-hot",
-    "spider-dayly-pm2": "tsc && pm2 start ./build/script/spider-day.js"
+    "spider-dayly-pm2": "sudo rm -rf build && tsc && pm2 start ./build/script/spider-day.js"
   },
   "dependencies": {
     "@types/mongoose": "^5.7.10",

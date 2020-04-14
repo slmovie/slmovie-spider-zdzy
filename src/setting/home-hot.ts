@@ -103,8 +103,8 @@ export function setNewMovies() {
                 const data = { type: type, movies: temp }
                 await homeModel.findOneAndUpdate({ type: type }, { $set: data }, { upsert: true, new: true, setDefaultsOnInsert: true })
                 dbMovies.close()
-                resolve()
             }
+            resolve()
         } catch (error) {
             dbMovies.close()
             reject(error)
