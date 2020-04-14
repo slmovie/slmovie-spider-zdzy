@@ -70,8 +70,8 @@ export async function spiderDay() {
 				spiderPage(Constant.Download, () => {
 					log("Download finish")
 					resolve()
-				}, 1, 200)
-			}, 1, 200)
+				}, 1, 20)
+			}, 1, 20)
 		} catch (error) {
 			reject(error)
 		}

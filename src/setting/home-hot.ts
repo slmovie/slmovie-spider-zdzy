@@ -90,6 +90,7 @@ export function setNewMovies() {
     return new Promise(async (resolve, reject) => {
         try {
             for (let type of newMovieType) {
+                log(type)
                 const movies = await moviesModel.find({ type: type }).limit(15).sort({ addTime: -1 })
                 let temp: IMovieDetail[] = []
                 for (let movie of movies) {
@@ -102,8 +103,8 @@ export function setNewMovies() {
                 }
                 const data = { type: type, movies: temp }
                 await homeModel.findOneAndUpdate({ type: type }, { $set: data }, { upsert: true, new: true, setDefaultsOnInsert: true })
-                dbMovies.close()
             }
+            dbMovies.close()
             resolve()
         } catch (error) {
             dbMovies.close()
@@ -114,10 +115,10 @@ export function setNewMovies() {
 
 // moviesModel.find({ type: "6" }).limit(10).sort({ addTime: -1 }).then(result => { log(result) })
 
-// setNewMovies().then(() => {
-//     log("finish");
-//     process.exit(0)
-// }).catch(error => {
-//     log(error)
-//     process.exit(0)
-// })
+setNewMovies().then(() => {
+    log("finish");
+    process.exit(0)
+}).catch(error => {
+    log(error)
+    process.exit(0)
+})

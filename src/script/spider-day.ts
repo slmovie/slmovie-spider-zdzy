@@ -3,7 +3,7 @@ import schedule from "node-schedule";
 import { log } from "../utils/log-utils";
 import { setNewMovies } from "../setting/home-hot";
 
-schedule.scheduleJob('* * 5 * *', () => {
+schedule.scheduleJob('00 00 * * * *', () => {
     spiderDay().then(() => {
         log("Dayly spider finish")
         setNewMovies().then(() => {
@@ -15,3 +15,4 @@ schedule.scheduleJob('* * 5 * *', () => {
         })
     })
 })
+
