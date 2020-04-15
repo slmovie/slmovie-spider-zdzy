@@ -31,6 +31,10 @@ function findOne(name: string) {
                 }
             }
         }
+        if (!movie) {
+            movie = await moviesModel.findOne({ id: name }) as unknown as IMovieDetail
+
+        }
         if (movie) {
             resolve(movie)
         } else {
@@ -48,6 +52,7 @@ function getMovies(names: string[]) {
         const hotMovies: IMovieDetail[] = []
         for (let name of names) {
             try {
+                log(name)
                 const movie = await findOne(name)
                 hotMovies.push(movie as unknown as IMovieDetail)
             } catch (error) {
@@ -60,13 +65,14 @@ function getMovies(names: string[]) {
 
 export async function setHotMovies(names: string[]) {
     try {
+        log("start")
         const hotMovies = await getMovies(names)
         const hot = { type: "0", movies: hotMovies }
         const oldHot = await homeModel.findOne({ type: hot.type })
         if (oldHot == null) {
             await homeModel.create(hot)
         } else {
-            await homeModel.updateOne({ name: hot.type }, { $set: hot })
+            await homeModel.updateOne({ type: hot.type }, { $set: hot })
         }
     } catch (error) {
         log(error)
@@ -115,10 +121,10 @@ export function setNewMovies() {
 
 // moviesModel.find({ type: "6" }).limit(10).sort({ addTime: -1 }).then(result => { log(result) })
 
-setNewMovies().then(() => {
-    log("finish");
-    process.exit(0)
-}).catch(error => {
-    log(error)
-    process.exit(0)
-})
+// setNewMovies().then(() => {
+//     log("finish");
+//     process.exit(0)
+// }).catch(error => {
+//     log(error)
+//     process.exit(0)
+// })
