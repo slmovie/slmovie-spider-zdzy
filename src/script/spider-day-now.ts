@@ -1,7 +1,6 @@
 import { spiderDay } from "../spider";
 import { log } from "../utils/log-utils";
 import { setNewMovies } from "../setting/home-hot";
-
 spiderDay().then(() => {
     log("Dayly spider finish")
     setNewMovies().then(() => {

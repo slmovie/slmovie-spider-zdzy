@@ -5,6 +5,7 @@ import { saveMovie } from "./mongodb/save-data";
 
 export const handleData = (result: any, type: number) => {
 	return new Promise(async (resolve, reject) => {
+		let updateSize = 0
 		for (let element of result.data) {
 			if (element.vod_cid != 16 && element.vod_cid != 17) {
 				const files = handleMovieUrls(element.vod_url)[0]
@@ -37,7 +38,8 @@ export const handleData = (result: any, type: number) => {
 				try {
 					const result = await saveMovie(type, detail)
 					if (result) {
-						log(type + ">>" + result)
+						updateSize++
+						// log(type + ">>" + result)
 					}
 				} catch (error) {
 					log(error)
@@ -46,7 +48,7 @@ export const handleData = (result: any, type: number) => {
 				// log("过滤 " + element.vod_name)
 			}
 		}
-		resolve()
+		resolve(updateSize)
 	})
 };
 

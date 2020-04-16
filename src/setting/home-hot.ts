@@ -33,7 +33,6 @@ function findOne(name: string) {
         }
         if (!movie) {
             movie = await moviesModel.findOne({ id: name }) as unknown as IMovieDetail
-
         }
         if (movie) {
             resolve(movie)
@@ -52,7 +51,6 @@ function getMovies(names: string[]) {
         const hotMovies: IMovieDetail[] = []
         for (let name of names) {
             try {
-                log(name)
                 const movie = await findOne(name)
                 hotMovies.push(movie as unknown as IMovieDetail)
             } catch (error) {
@@ -65,7 +63,6 @@ function getMovies(names: string[]) {
 
 export async function setHotMovies(names: string[]) {
     try {
-        log("start")
         const hotMovies = await getMovies(names)
         const hot = { type: "0", movies: hotMovies }
         const oldHot = await homeModel.findOne({ type: hot.type })
@@ -96,7 +93,6 @@ export function setNewMovies() {
     return new Promise(async (resolve, reject) => {
         try {
             for (let type of newMovieType) {
-                log(type)
                 const movies = await moviesModel.find({ type: type }).limit(15).sort({ addTime: -1 })
                 let temp: IMovieDetail[] = []
                 for (let movie of movies) {

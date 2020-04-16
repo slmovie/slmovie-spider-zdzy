@@ -15,12 +15,6 @@ db.catch((error) => {
 	process.exit(0);
 });
 
-interface ChangedMovie {
-	m3u8Urls: IMovieFile[],
-	onlineUrls: IMovieFile[],
-	downloadUrls: IMovieFile[]
-}
-
 export const saveMovie = async (type: number, movie: IMovieDetail) => {
 	return new Promise(async (resolve, reject) => {
 		const model = db.model('Movie', MovieSchema);

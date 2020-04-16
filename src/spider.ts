@@ -30,11 +30,12 @@ export async function spiderPage(type: number, finish: Function, page?: number, 
 	if (!page) {
 		page = 1
 	}
-	log("page = " + page + " type = " + type)
+
 	const url = Constant.getUrl(type)
 	try {
 		const result: any = await reqPage(url + page)
-		await handleData(result, type)
+		const updateSize = await handleData(result, type)
+		log("page = " + page + " type = " + type + " update size " + updateSize, true)
 		let endPage
 		if (end) {
 			endPage = end
